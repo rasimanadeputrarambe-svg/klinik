@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Reservasi Klinik</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f6f8;
+      padding: 20px;
+    }
+    .container {
+      max-width: 500px;
+      margin: auto;
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    h1 { text-align: center; }
+    label { display: block; margin-top: 15px; }
+    input, textarea, button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      font-size: 14px;
+    }
+    textarea { resize: vertical; min-height: 70px; }
+    button {
+      background: #28a745;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+      border-radius: 5px;
+      margin-top: 15px;
+    }
+    button:hover {
+      background: #218838;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Form Reservasi Klinik</h1>
+    <form id="reservasiForm">
+      <label>Nama Lengkap
+        <input type="text" name="nama" required>
+      </label>
+      <label>No HP (WhatsApp)
+        <input type="text" name="hp" required>
+      </label>
+      <label>Tanggal Reservasi
+        <input type="date" name="tanggal" required>
+      </label>
+      <label>Jam Reservasi
+        <input type="time" name="jam" required>
+      </label>
+      <label>Catatan Tambahan
+        <textarea name="catatan" placeholder="Keluhan atau catatan untuk dokter"></textarea>
+      </label>
+      <button type="submit">Kirim Reservasi</button>
+    </form>
+  </div>
+
+  <script>
+    document.getElementById("reservasiForm").addEventListener("submit", async function(e) {
+      e.preventDefault();
+      const formData = new FormData(this);
+      await fetch("https://script.google.com/macros/s/AKfycbwewk6mrRgcSziJudNyMWLVKXofUClASIyvgjcJU_NsCzV_HeMwOESCC9TbcxSPv7A6vA/exec", {
+        method: "POST",
+        body: formData,
+        mode: "no-cors"
+      });
+      alert("Reservasi berhasil dikirim!");
+      this.reset();
+    });
+  </script>
+</body>
+</html>
