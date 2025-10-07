@@ -1,80 +1,76 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Reservasi Klinik</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f4f6f8;
-      padding: 20px;
-    }
-    .container {
-      max-width: 500px;
-      margin: auto;
-      background: #fff;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    }
-    h1 { text-align: center; }
-    label { display: block; margin-top: 15px; }
-    input, textarea, button {
-      width: 100%;
-      padding: 10px;
-      margin-top: 5px;
-      font-size: 14px;
-    }
-    textarea { resize: vertical; min-height: 70px; }
-    button {
-      background: #28a745;
-      color: #fff;
-      border: none;
-      cursor: pointer;
-      font-size: 16px;
-      border-radius: 5px;
-      margin-top: 15px;
-    }
-    button:hover {
-      background: #218838;
-    }
-  </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Form Reservasi Klinik</title>
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-  <div class="container">
-    <h1>Form Reservasi Klinik</h1>
-    <form id="reservasiForm">
-      <label>Nama Lengkap
-        <input type="text" name="nama" required>
-      </label>
-      <label>No HP (WhatsApp)
-        <input type="text" name="telepon" required>
-      </label>
-      <label>Tanggal Reservasi
-        <input type="date" name="tanggal" required>
-      </label>
-      <label>Jam Reservasi
-        <input type="time" name="jam" required>
-      </label>
-      <label>Catatan Tambahan
-        <textarea name="catatan" placeholder="Keluhan atau catatan untuk dokter"></textarea>
-      </label>
-      <button type="submit">Kirim Reservasi</button>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+  <div class="bg-white p-8 rounded-2xl shadow-lg w-full max-w-md">
+    <h2 class="text-2xl font-bold mb-6 text-center text-green-600">Form Reservasi Klinik</h2>
+    <form id="reservasiForm" class="space-y-4">
+      
+      <div>
+        <label class="block text-sm font-medium">Nama Lengkap</label>
+        <input type="text" name="nama" required
+          class="w-full p-2 border rounded-lg focus:ring focus:ring-green-300"/>
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium">No HP (WhatsApp)</label>
+        <!-- 🟢 diganti: name="telepon" -->
+        <input type="text" name="telepon" required
+          class="w-full p-2 border rounded-lg focus:ring focus:ring-green-300"/>
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium">Tanggal Reservasi</label>
+        <input type="date" name="tanggal" required
+          class="w-full p-2 border rounded-lg focus:ring focus:ring-green-300"/>
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium">Jam Reservasi</label>
+        <input type="time" name="jam" required
+          class="w-full p-2 border rounded-lg focus:ring focus:ring-green-300"/>
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium">Catatan Tambahan</label>
+        <textarea name="catatan" rows="3"
+          class="w-full p-2 border rounded-lg focus:ring focus:ring-green-300"
+          placeholder="Keluhan atau catatan untuk dokter"></textarea>
+      </div>
+
+      <button type="submit"
+        class="w-full bg-green-600 text-white p-3 rounded-lg font-semibold hover:bg-green-700">
+        Kirim Reservasi
+      </button>
     </form>
   </div>
 
   <script>
-    document.getElementById("reservasiForm").addEventListener("submit", async function(e) {
+    // 🔗 URL Web App Google Apps Script Anda (pastikan /exec terbaru)
+    const EXEC_URL = "https://script.google.com/macros/s/AKfycbwewk6mrRgcSziJudNyMWLVKXofUClASIyvgjcJU_NsCzV_HeMwOESCC9TbcxSPv7A6vA/exec";
+    
+    const form = document.getElementById("reservasiForm");
+    form.addEventListener("submit", async (e) => {
       e.preventDefault();
-      const formData = new FormData(this);
-      await fetch("https://script.google.com/macros/s/AKfycbwewk6mrRgcSziJudNyMWLVKXofUClASIyvgjcJU_NsCzV_HeMwOESCC9TbcxSPv7A6vA/exec", {
+      
+      const fd = new FormData(form);
+      const body = new URLSearchParams();
+      fd.forEach((v, k) => body.append(k, v));
+
+      await fetch(EXEC_URL, {
         method: "POST",
-        body: formData,
-        mode: "no-cors"
+        mode: "no-cors",
+        headers: { "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8" },
+        body
       });
-      alert("Reservasi berhasil dikirim!");
-      this.reset();
+
+      alert("✅ Reservasi berhasil dikirim! Cek Google Sheet Anda.");
+      form.reset();
     });
   </script>
 </body>
